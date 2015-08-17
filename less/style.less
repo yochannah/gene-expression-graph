@@ -1,0 +1,57 @@
+@import '_loader';
+@import '_clearfix';
+
+body {
+  font-family : arial, sans-serif;
+}
+.gene-expression-atlas-diseases {
+  div.chart { float:left; min-width:500px; }
+  div.chart div.loading { background:url('images/icons/ajax-loader.gif') no-repeat top left; padding-left:28px;
+    margin:0 auto; width:200px; margin-top:50px; font-weight:bold; letter-spacing:0.5px; }
+  h3 { background-image:url("images/icons/ebi.gif"); background-position:6px 2px; background-repeat:no-repeat;
+    line-height:20px; padding-left:28px; }
+  div.wrap { overflow-x:auto; }
+  div.inside { min-width:1000px; }
+  div.sidebar { display:inline; float:left; margin-left:10px; }
+  div.sidebar h4,
+  div.sidebar p { margin:5px 0 16px 0; width:430px; }
+  div.sidebar p.small { font-size:11px; }
+  div.sidebar a.ext { background:url('images/icons/external_link.png') no-repeat top right; padding-right:10px; }
+  div.sidebar h4 { margin:0; }
+  div.sidebar div.description { width:100%; }
+  div.sidebar div.description a.more { display:none; }
+  div.sidebar div.description div.content { position:relative; }
+  div.sidebar div.description.preview div.wrap { text-align:center; }
+  div.sidebar div.description.preview a.more { display:inline-block; padding:1px 2px 1px 14px; border-radius:2px 2px 2px 2px;
+    box-shadow:0 1px 2px #EFEFEF; background:url("images/report/arrow_expand.gif") no-repeat scroll 2px 50% transparent; color:#1F7492;
+    cursor:pointer; margin:2px 0; }
+  div.sidebar div.description.preview div.content { overflow:hidden; height:50px; cursor:pointer; }
+  div.sidebar div.description.preview div.content div.overlay { display:block; width:430px; height:20px;
+    background:url('model/images/white-to-transparent-gradient-20px.png') repeat-x top left; position:absolute; top:30px; left:0; }
+  div.sidebar div.description.preview { display:block; }
+  div.sidebar div.legend ul { margin-top:4px; }
+  div.sidebar div.legend span { border:1px solid #000; display:inline-block; height:15px; width:20px; }
+  div.sidebar div.legend span.up { background:#59BB14; }
+  div.sidebar div.legend span.down { background:#0000FF; }
+  div.sidebar div.legend span.confidence { background:url('model/images/low-confidence.png') no-repeat center;
+    margin-top:10px; }
+  div.sidebar input.update { font-weight:bold; }
+  div.sidebar input.update.inactive { font-weight:normal; }
+  div.sidebar div.settings { margin-bottom:20px; }
+  div.sidebar div.collection-of-collections { min-width:430px; }
+  div.sidebar table { text-align:left; }
+  div.sidebar div.pane { padding:5px; }
+  div.settings ul.sort { margin-bottom:10px; }
+  div.settings ul.sort li { margin-left:10px !important; background:url('images/icons/sort-up.gif') no-repeat center left;
+    padding-left:16px; cursor:pointer; }
+  div.settings ul.sort li.active { background:url('images/icons/sort.gif') no-repeat center left; font-weight:bold; }
+  fieldset { border:0; width:300px; }
+  fieldset input[type="checkbox"] { margin-right:10px; vertical-align:bottom }
+  div.data-table { display:none; margin-top:20px; }
+  input.toggle-table { margin-bottom:20px; }
+
+  //todo: make sure these styles apply correctly
+  .chart span { text-align:center; display:block; margin-left:55%; color:#1F7492; font-size:11px;
+    font-style:italic; margin-bottom:20px; }
+  .chart iframe { display:block; clear:both; }
+}

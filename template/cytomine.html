@@ -1,0 +1,32 @@
+<body>
+  <div class="graph">
+    <div class="cy">
+      <div class="status loader"></div>
+    </div>
+    <div class="controls">
+      <div class="interactionFilter">
+        <div>Show the following interaction types:</div>
+        <div>
+          <button class="genetic">Genetic</button><button class="default selected">All</button><button class="physical">Physical</button>
+        </div>
+      </div>
+      <div class="export">Export graph...
+        <div class="exportValues">
+          <select>
+            <option>SVG</option>
+            <option>JPG</option>
+            <option>CSV</option>
+          </select>
+          <button>Go!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nodeDetails">
+    <h2 class="nodeTitle"></h2>
+    <dl class="nodeInfo intro">
+      <dt class="intro">Click on a gene to get more info about it.</dt>
+      <!-- dynamically output data here.  -->
+    </dl>
+  </div>
+</body>

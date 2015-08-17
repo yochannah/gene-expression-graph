@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <link href="dist/style.css" rel="stylesheet" type="text/css">
+    <script src="dist/bundle.js"></script>
+  </head>
+  <body>
+
+    <div>Hello, world.</div>
+
+    <div id="gene-expression-disease">
+    </div>
+
+
+    <script>
+
+    diex({
+      parentElem : document.getElementById('gene-expression-disease'),
+      service : {
+        root : "http://beta.flymine.org/beta/service/", //mandatory
+        token : "" //optional
+        },
+      queryOn : {
+        "value" : "FBgn0034249"
+      }
+    });
+
+    </script>
+
+
+</body>
+</html>
