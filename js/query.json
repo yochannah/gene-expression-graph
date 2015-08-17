@@ -1,19 +1,17 @@
 {
-  "name": "Gene_Interactions",
-  "title": "Gene --> Interactions",
-  "description": "Show all interactions for a given gene.",
-  "constraintLogic": "A and B",
+  "name": "GeneExpress",
+  "title": "Gene --> Gene Expression",
+  "comment": "Added 23AUG2011:ML",
+  "description": "Show expression for a gene or list of genes. Optionally constrain the P-value and the T-statistic.  The results can also be optionally filtered on organism part, cell type or disease state. Data source: The Gene Expression Atlas (http://www.ebi.ac.uk/gxa/).  Keywords:  Expression, Genes, Organism part, Disease state, Cell type, P value, T statistic.",
+  "constraintLogic": "C and B and A and F and D",
   "from": "Gene",
   "select": [
     "primaryIdentifier",
-    "symbol",
-    "interactions.gene2.symbol",
-    "interactions.gene2.primaryIdentifier",
-    "interactions.details.name",
-    "interactions.details.role1",
-    "interactions.details.role2",
-    "interactions.details.type",
-    "interactions.details.dataSets.name"
+    "atlasExpression.condition",
+    "atlasExpression.type",
+    "atlasExpression.tStatistic",
+    "atlasExpression.pValue",
+    "atlasExpression.expression"
   ],
   "orderBy": [
     {
@@ -25,10 +23,20 @@
     {
       "path": "Gene",
       "op": "LOOKUP",
-      "code": "A",
+      "extraValue": "H. sapiens",
+      "code": "D",
       "editable": true,
       "switched": "LOCKED",
-      "switchable": false,
+      "switchable": false
+    },
+    {
+      "path": "atlasExpression.type",
+      "op": "=",
+      "value": "disease_state",
+      "code": "B",
+      "editable": true,
+      "switched": "ON",
+      "switchable": true
     }
   ]
 }
