@@ -2,6 +2,7 @@ var imjs          = require('imjs'),
 _             = require('underscore'),
 query         = require('./query'),
 diexUi        = require('./ui'),
+diexChart     = require('./chartBuilder'),
 strings       = require('./strings');
 
 var diex = function(args){ //diex = disease + expression.
@@ -14,13 +15,24 @@ var diex = function(args){ //diex = disease + expression.
       ui = new diexUi(settings);
       ui.init();
       var mine = validateServiceRoot();
+      console.log('test');
       if(prepQuery() && mine) {
         mine.records(query).then(function(response) {
           if (response.length > 0) {
 //            settings.data = new cymineDataFormatter(response);
               console.log(settings.parentElem);
             console.debug('response:', response, 'settingsdata:', settings);
+            console.log(response[0]);
+
+            console.log(diexChart.prepareOriginalList(response));
+
+/*
+            for(var i=0; i < response[0].atlasExpression.length; i++){
+              console.log(response[0].atlasExpression[i].condition);
+            }
+*/
           } else {
+            console.log('urdoingitrong');
 //            ui.init(strings.user.noResults);
           }
         });
