@@ -1,20 +1,17 @@
 var assert = require("assert"),
-main = require('../js/main.js')
+sorter = require('../js/sorter.js'),
+list = require('./originalList'),
+df = require('../js/dataFormatter.js');
 
+var sortBy = sorter();
 
 console.log("===");
-describe('A test', function(){
+describe('Sorter behaviour', function(){
 
-  it('should pass',function() {
-    assert("0" !== 0);
-  });
-
-  it('should return hi from the hello world main js function',function() {
-    var hello = main();
-    assert(hello === "hi");
-    assert(hello !== "bye");
-  });
-
+  var sorted = list.sort(sortBy.tStatistic);
+  for(var i =0; i < list.length; i++) {
+    console.log(list[i].expressions[0])
+  }
 
 });
 console.log("Running tests at " + new Date().toString() + ":");

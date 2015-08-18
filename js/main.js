@@ -1,28 +1,31 @@
-var imjs          = require('imjs'),
+var imjs      = require('imjs'),
 _             = require('underscore'),
 query         = require('./query'),
 diexUi        = require('./ui'),
-diexChart     = require('./chartBuilder'),
+diexData      = require('./dataFormatter'),
 strings       = require('./strings');
 
 var diex = function(args){ //diex = disease + expression.
   var settings = _.extend({},args);
   init();
+  var data;
 
   function init() {
     console.log('initialising');
     if(validateParent()) {
       ui = new diexUi(settings);
-      ui.init();
       var mine = validateServiceRoot();
       if(prepQuery() && mine) {
         mine.records(query).then(function(response) {
           console.debug('response:', response, 'settingsdata:', settings);
           if (response.length > 0) {
-//            settings.data = new cymineDataFormatter(response);
-
             try {
-            console.log(diexChart.prepareOriginalList(response));
+            data = diexData.prepareOriginalList(response);
+
+            console.log(data.list.byTStatistic);
+
+            ui.init(data);
+
           } catch(e){console.error(e);}
           } else {
 //            ui.init(strings.user.noResults);
