@@ -1,33 +1,48 @@
-var jQuery = require('jquery');
+var jQuery  = require('jquery'),
+sorter      = require('./sorter');
+
 var geneExpressionAtlasDiseasesDisplayer = {};
 geneExpressionAtlasDiseasesDisplayer.settingsUpdated = function() {
   jQuery("#gene-expression-atlas-diseases div.settings input.update").removeClass('inactive');
 };
 
+geneExpressionAtlasDiseasesDisplayer.originalList = {};
+geneExpressionAtlasDiseasesDisplayer.newList = [];
+
 geneExpressionAtlasDiseasesDisplayer.prepareOriginalList = function(response){
-  var expressions = [], expression;
+  var expressions = [], expression,
+  sortBy = sorter();
   for(var i=0; i < response[0].atlasExpression.length; i++){
     expression = response[0].atlasExpression[i];
     expressions.push({
-      'pValue': expression.pValue,
-      'tStatistic': expression.tStatistic
+      'condition' : expression.condition,
+      'expressions' : [{
+        'pValue': expression.pValue,
+        'tStatistic': expression.tStatistic
+      }]
     });
   }
-  return expressions;
-}
 
-module.exports = geneExpressionAtlasDiseasesDisplayer;
-/*
- // load Goog, create the initial bag from Java, determine max t-stat peak --%>
- (function() {
 
-  // Java to JavaScript --%>
-  geneExpressionAtlasDiseasesDisplayer.originalList =
-      {"byName": new Array(), "byTStatistic": new Array(), "byPValue": new Array()};
+  geneExpressionAtlasDiseasesDisplayer.originalList = {
+    "byName":   sortBy.name(expressions),
+    "byTStatistic": expressions.sort(sortBy.tStatistic),
+    "byPValue": expressions.sort(sortBy.pValue)
+  };
   geneExpressionAtlasDiseasesDisplayer.peaks = {"up": 0, "down": 0};
 
+  console.log('originalList',geneExpressionAtlasDiseasesDisplayer.originalList);
+}
 
 
+ // load Goog, create the initial bag from Java, determine max t-stat peak --%>
+ //(function() {
+
+  // Java to JavaScript --%>
+
+
+
+/*
   // ordered by organ part --%>
   <c:forEach var="cellType" items="${expressions.byName}">
     var expressions = new Array();
@@ -103,3 +118,4 @@ module.exports = geneExpressionAtlasDiseasesDisplayer;
   geneExpressionAtlasDiseasesDisplayer.peaks.up : Math.abs(geneExpressionAtlasDiseasesDisplayer.peaks.down);
  })();
 */
+module.exports = geneExpressionAtlasDiseasesDisplayer;
