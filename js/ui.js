@@ -22,8 +22,7 @@ var ui = function(settings) {
       settings.statusBar = settings.parentElem.querySelector('.status');
       settings.parentElem.appendChild(getSidebar());
       settings.title = VALS[settings.expressionType];
-
-
+      
       util.addClass(settings.parentElem, "gene-expression-atlas");
 
       //normal init

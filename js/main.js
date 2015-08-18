@@ -6,24 +6,20 @@ diexData      = require('./dataFormatter'),
 strings       = require('./strings');
 
 var diex = function(args){ //diex = disease + expression.
-  var settings = _.extend({},args);
-  init();
-  var data;
+  var settings = _.extend({},args),
+  data;
 
   function init() {
-    console.log('initialising');
     if(validateParent()) {
       ui = new diexUi(settings);
-      var mine = validateServiceRoot();
+      var mine = validateServiceRoot(),
+      prom;
       if(prepQuery() && mine) {
-        mine.records(query).then(function(response) {
+        prom = mine.records(query).then(function(response) {
           console.debug('response:', response, 'settingsdata:', settings);
           if (response.length > 0) {
             try {
             data = diexData.prepareOriginalList(response);
-
-            console.log(data.list.byTStatistic);
-
             ui.init(data);
 
           } catch(e){console.error(e);}
@@ -33,6 +29,7 @@ var diex = function(args){ //diex = disease + expression.
         });
       }
     }
+    return prom;
   };
   /**
    * Checks if there is indeed an element to attach to, and failing that tries a default.
@@ -40,7 +37,6 @@ var diex = function(args){ //diex = disease + expression.
    *                          since there's nowhere to render it to.
    */
   function validateParent() {
-    console.log(settings);
       if(!settings.parentElem){
         var defaultElem = document.getElementById('gene-expression-atlas-diseases');
         if(defaultElem) {
@@ -95,6 +91,7 @@ var diex = function(args){ //diex = disease + expression.
     function badServiceError(){
         throw new initError('badServiceUrl');
     }
+    return init();
   }
 
 //write tests in test.js

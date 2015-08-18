@@ -1,12 +1,5 @@
 ## About
-Starter recipe for building with:
-
-* gulp
-* browserify / watchify
-* less
-* html/text templates using gulp-stringify
-
-And live-reloading pages served via browsersync.
+Hack-ey js-specific version of https://github.com/intermine/intermine/blob/beta/bio/webapp/src/org/intermine/bio/web/model/GeneExpressionAtlasTissuesExpressions.java.
 
 ### Running the project
 

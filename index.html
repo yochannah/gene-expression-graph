@@ -7,12 +7,15 @@
   </head>
   <body>
 
-  <div id="gene-expression">
-  </div>
+    <div id="gene-expression-tissue">
+    </div>
+
+    <div id="gene-expression-disease">
+    </div>
 
   <script>
-  expressions({
-    parentElem : document.getElementById('gene-expression'),
+  var prom = expressions({
+    parentElem : document.getElementById('gene-expression-tissue'),
     service : {
       root: 'http://www.humanmine.org/humanmine/service/',
       token : "" //optional
@@ -21,21 +24,20 @@
       "value": "PPARG"
     },
     expressionType : "organism_part" //reqd. Must be either organism_part or disease_state
-  });
-
-  expressions({
-    parentElem : document.getElementById('gene-expression'),
-    service : {
-      root: 'http://www.humanmine.org/humanmine/service/',
-      token : "" //optional
+  })
+  .then(function(){
+    expressions({
+      parentElem : document.getElementById('gene-expression-disease'),
+      service : {
+        root: 'http://www.humanmine.org/humanmine/service/',
+        token : "" //optional
+        },
+      queryOn : {
+      "value": "ADAMTS1"
       },
-    queryOn : {
-    "value": "ADAMTS1"
-//      "value": "PPARG"
-    },
-    expressionType : "disease_state" //reqd. Must be either organism_part or disease_state
+      expressionType : "disease_state" //reqd. Must be either organism_part or disease_state
+    });
   });
-
   </script>
 </body>
 </html>
