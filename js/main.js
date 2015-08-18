@@ -28,7 +28,7 @@ var diex = function(args){ //diex = disease + expression.
 
           } catch(e){console.error(e);}
           } else {
-//            ui.init(strings.user.noResults);
+            ui.init(strings.user.noResults);
           }
         });
       }
@@ -69,8 +69,10 @@ var diex = function(args){ //diex = disease + expression.
     function prepQuery() {
       if(settings.queryOn) {
         _.extend(query.where[0],settings.queryOn);
+        query.where[1].value = settings.expressionType;
         return true;
       } else {
+
         throw new initError('noQueryData');
         return false;
       }

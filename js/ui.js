@@ -1,12 +1,16 @@
-var util = require('./util'),
-template = require('../template/basechart.html'),
-jQuery = require('jquery'),
+var util        = require('./util'),
+template        = require('../template/basechart.html'),
+jQuery          = require('jquery'),
 sidebarTemplate = require('../template/sidebar.html');
 var ui = function(settings) {
   this.settings = settings;
   var originalList,
   newList,
   peaks,
+  VALS = {
+    "disease_state" : "Disease",
+    "organism_part" : "Tissue"
+  },
   currentFilter = {
     pValue : 0.0001,
     tStatistic : 4,
@@ -16,18 +20,25 @@ var ui = function(settings) {
   var init = function(data) {
       settings.parentElem.innerHTML = template;
       settings.statusBar = settings.parentElem.querySelector('.status');
-      util.removeClass(settings.statusBar, "loader");
       settings.parentElem.appendChild(getSidebar());
-      util.addClass(settings.parentElem, "gene-expression-atlas-diseases");
-      settings.statusBar = settings.parentElem.querySelector('.status');
-      originalList = data.list;
-      peaks = data.peaks;
+      settings.title = VALS[settings.expressionType];
 
-      listeners();
 
+      util.addClass(settings.parentElem, "gene-expression-atlas");
+
+      //normal init
+      if("string" !== typeof data) {
+        originalList = data.list;
+        peaks = data.peaks;
+
+        listeners();
+        google.load("visualization", "1", {"packages":["corechart"], "callback":filterAndDrawChart});
+      } else {
+        //error init
+        noResults(data);
+      }
     },
     getCurrentFilter = function(){
-      console.warn("GetCurrentFilter not implemented");
       return currentFilter;
     },
     getSidebar = function() {
@@ -131,7 +142,7 @@ var ui = function(settings) {
           fontName: "Lucida Grande,Verdana,Geneva,Lucida,Helvetica,Arial,sans-serif",
           fontSize: 11,
           vAxis: {
-            title: 'Tissue',
+            title: settings.title,
             titleTextStyle: {
               color: '#1F7492'
             }
@@ -156,9 +167,8 @@ var ui = function(settings) {
       }
     },
     filterAndDrawChart = function(redraw) {
-        // TODO: chart loading msg
+        util.removeClass(settings.statusBar, "loader");
 
-        //YY TODO: This thing here won't work.
         var filters = getCurrentFilter();
 
         // should the expression be included? --%>
@@ -193,10 +203,9 @@ var ui = function(settings) {
 
         // go through the original list here (based on sort order) --%>
         var origList = originalList[getSortOrder()];
-//        console.log(JSON.stringify(origList));
         var liszt = new Array();
         if (filters) {
-          for (x in origList) {
+          for(var x = 0; x < origList.length; x++) {
             var oldCellType = origList[x];
             var newExpressions = new Array();
             // traverse the unfiltered expressions --%>
@@ -223,17 +232,6 @@ var ui = function(settings) {
         newList = liszt;
         // re-/draw the chart --%>
         drawChart(liszt, redraw);
-      },
-      geneExpressionTissuesInitFilter = function() {
-        // regulation type (UP/DOWN/NONE) --%>
-        currentFilter.regulationType = new Array('UP', 'DOWN');
-
-        //TODO: THIS VALUE, I JUST MADE UP. PUT SOMETHING SENSIBLE
-        // p-value --%>
-        currentFilter.pValue = 1;
-
-        // t-statistic --%>
-        currentFilter.tStatistic = 1;
       },
       geneExpressionTissuesUpdateCurrentFilter = function() {
         // regulation type (UP/DOWN/NONE) --%>
@@ -274,7 +272,6 @@ var ui = function(settings) {
           return jQuery(window).width();
       },
       listeners = function(){
-
         // resize chart on browser window resize --%>
         jQuery(window).resize(function() {
           if (this.resz) clearTimeout(this.resz);
@@ -282,31 +279,7 @@ var ui = function(settings) {
             filterAndDrawChart(true);
           }, 500);
         });
-
-        // attache events to the sidebar settings, set as filters and redraw --%>
-        jQuery(settings.parentElem).find("div.settings input.update").click(function() {
-          geneExpressionTissuesUpdateCurrentFilter();
-          // redraw --%>
-          filterAndDrawChart(true);
-          // update button not highlighted --%>
-          jQuery(this).addClass('inactive');
-        });
-
-        // attache switcher for sort order --%>
-        jQuery(settings.parentElem).find("div.settings ul.sort li").click(function() {
-          jQuery(settings.parentElem).find("div.settings ul.sort li.active").removeClass('active');
-          jQuery(this).addClass('active');
-          geneExpressionTissuesUpdateCurrentFilter();
-          filterAndDrawChart(true);
-        });
-
-        // attache monitoring for regulation type checkbox change --%>
-        jQuery(settings.parentElem).find("div.settings fieldset.regulation-type input").click(function() {
-          console.warn("Click handler not implemented yet");
-        });
       };
-
-      google.load("visualization", "1", {"packages":["corechart"], "callback":filterAndDrawChart});
 
     return {
       init: init,

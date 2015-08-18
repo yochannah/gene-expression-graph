@@ -14,23 +14,30 @@ exDisplayer.prepareOriginalList = function(response){
   sortBy = sorter();
   for(var i=0; i < response[0].atlasExpression.length; i++){
     expression = response[0].atlasExpression[i];
-    expressions.push({
-      'condition' : expression.condition,
-      'expressions' : [{
-        'pValue': expression.pValue,
-        'tStatistic': expression.tStatistic
-      }]
-    });
+    if(expression.condition !== "(empty)") {
+      expressions.push({
+        'condition' : expression.condition,
+        'expressions' : [{
+          'pValue': expression.pValue,
+          'tStatistic': expression.tStatistic
+        }]
+      });
+    }
   };
+  // debug. The list should remain sorted from positive to negative. arg. 
+  // var arg = expressions.sort(sortBy.tStatistic);
+  // for (var i = 0; i < arg.length; i++) {
+  //   console.log(arg[i].expressions[0]);
+  // }
+
   exDisplayer.originalList = {
     "byName":   sortBy.name(expressions),
     "byTStatistic": expressions.sort(sortBy.tStatistic),
     "byPValue": expressions.sort(sortBy.pValue)
   };
+
   exDisplayer.createPeaks();
   exDisplayer.updateGlobalPeaks();
-  console.log('originalList',exDisplayer.originalList);
-  console.log('peaks',exDisplayer.peaks);
   return {
     list : exDisplayer.originalList,
     peaks : exDisplayer.peaks
@@ -38,13 +45,17 @@ exDisplayer.prepareOriginalList = function(response){
 };
 
 /**
-!!!!!!!
-TODO: buggy right now because the sort order is problematic. Should work when we fix that.
-!!!!!!!!!
+ * Sets peak values to highest and lowest values in the array.
+ * Until we fix why the sort order is changing can't just use the last value in the array for up.
  **/
 exDisplayer.createPeaks = function() {
   var down = exDisplayer.originalList.byTStatistic[0].expressions[0].tStatistic,
-  up = exDisplayer.originalList.byTStatistic[exDisplayer.originalList.byTStatistic.length-1].expressions[0].tStatistic;
+  up = 0, temp;
+
+  for (var i = 0; i < exDisplayer.originalList.byTStatistic.length; i++) {
+    temp = exDisplayer.originalList.byTStatistic[i].expressions[0].tStatistic;
+    up = (temp > up) ? temp : up;
+  }
 
   exDisplayer.peaks.up = up;
   exDisplayer.peaks.down = down;

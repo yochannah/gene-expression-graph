@@ -7,20 +7,35 @@
   </head>
   <body>
 
-  <div id="gene-expression-disease">
+  <div id="gene-expression">
   </div>
 
   <script>
-    diex({
-      parentElem : document.getElementById('gene-expression-disease'),
-      service : {
-        root: 'http://www.humanmine.org/humanmine/service/',
-        token : "" //optional
-        },
-      queryOn : {
-        "value": "ADAMTS1"
-      }
-    });
+  expressions({
+    parentElem : document.getElementById('gene-expression'),
+    service : {
+      root: 'http://www.humanmine.org/humanmine/service/',
+      token : "" //optional
+      },
+    queryOn : {
+      "value": "PPARG"
+    },
+    expressionType : "organism_part" //reqd. Must be either organism_part or disease_state
+  });
+
+  expressions({
+    parentElem : document.getElementById('gene-expression'),
+    service : {
+      root: 'http://www.humanmine.org/humanmine/service/',
+      token : "" //optional
+      },
+    queryOn : {
+    "value": "ADAMTS1"
+//      "value": "PPARG"
+    },
+    expressionType : "disease_state" //reqd. Must be either organism_part or disease_state
+  });
+
   </script>
 </body>
 </html>

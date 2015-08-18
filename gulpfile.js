@@ -18,7 +18,7 @@ var gulp        = require('gulp'),
     var customOpts = {
       entries: ['./js/main.js'],
         debug: true,
-        standalone : 'diex'
+        standalone : 'expressions'
     };
     var opts = assign({}, watchify.args, customOpts);
     var b = watchify(browserify(opts));
@@ -31,6 +31,22 @@ var gulp        = require('gulp'),
     b.on('update', bundle); // on any dep update, runs the bundler
     b.on('log', gutil.log); // output build logs to terminal
 
+
+    /*
+    Compiles less but excludes partials starting with underscore, e.g. _loader.less
+     */
+    gulp.task('less', function() {
+      var ret = gulp.src(['./less/**/*.less', '!./less/**/_*'])
+          .pipe(less())
+          .pipe(minifyCSS())
+          .pipe(gulp.dest('./dist'))
+          .pipe(browserSync.stream())
+          .on('error', gutil.log.bind(gutil, 'Less Error'));
+
+          console.log('less', ret);
+      return ret
+    });
+
     function bundle() {
       return b
         .transform(stringify(['.html']))
@@ -39,11 +55,10 @@ var gulp        = require('gulp'),
         .on('error', gutil.log.bind(gutil, 'Browserify Error'))
         .pipe(source('bundle.js'))
         // optional, remove if you don't need to buffer file contents
-//        .pipe(buffer())
         // optional, remove if you dont want sourcemaps
         // .pipe(sourcemaps.init({loadMaps: true})) // loads map from browserify file
            // Add transformation tasks to the pipeline here.
-    //    .pipe(streamify(uglify()))
+        .pipe(streamify(uglify()))
         // .pipe(sourcemaps.write('./')) // writes .map file
         .pipe(gulp.dest('./dist'));
     }
@@ -60,17 +75,6 @@ gulp.task('serve', ['less', 'js'], function() {
     gulp.watch("./less/**/*.less", ['less']);
     gulp.watch("./dist/*.js").on('change', browserSync.reload);
     gulp.watch("./*.html").on('change', browserSync.reload);
-});
-
-/*
-Compiles less but excludes partials starting with underscore, e.g. _loader.less
- */
-gulp.task('less', function() {
-  return gulp.src(['./less/**/*.less', '!./less/**/_*'])
-      .pipe(less())
-      .pipe(minifyCSS())
-      .pipe(gulp.dest('./dist'))
-      .pipe(browserSync.stream());
 });
 
 //These are the tasks most likely to be run by a user

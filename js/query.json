@@ -32,7 +32,6 @@
     {
       "path": "atlasExpression.type",
       "op": "=",
-      "value": "disease_state",
       "code": "B",
       "editable": true,
       "switched": "ON",

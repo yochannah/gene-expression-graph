@@ -5,11 +5,11 @@
   },
   "dev" : {
     "noParent" : {
-      "usingDefault" : "Cymine: No parent element specified for Cymine. Using default '#cymine",
-      "noDefault" : "Cymine: No parent element specified, and default '#cymine' not available."
+      "usingDefault" : "ExpressionDisplayer: No parent element specified for ExpressionDisplayer. Using default '#ExpressionDisplayer",
+      "noDefault" : "ExpressionDisplayer: No parent element specified, and default '#ExpressionDisplayer' not available."
     },
-    "noQueryData" : "Cymine: No queryOn values supplied!",
-    "noServiceUrl" : "Cymine: No serviceUrl defined, unable to query for interactions.",
-    "badServiceUrl" : "Cymine: bad serviceUrl. Please check for typos and check this host is up."
+    "noQueryData" : "ExpressionDisplayer: No queryOn values supplied!",
+    "noServiceUrl" : "ExpressionDisplayer: No serviceUrl defined, unable to query for interactions.",
+    "badServiceUrl" : "ExpressionDisplayer: bad serviceUrl or bad Query. Please check for typos and check this host is up."
   }
 }
