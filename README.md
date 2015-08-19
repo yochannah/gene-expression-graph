@@ -1,5 +1,7 @@
 ## About
-Hack-ey js-specific version of https://github.com/intermine/intermine/blob/beta/bio/webapp/src/org/intermine/bio/web/model/GeneExpressionAtlasTissuesExpressions.java.
+Hack-ey js-specific version of [this gene expression graph](https://github.com/intermine/intermine/blob/beta/bio/webapp/src/org/intermine/bio/web/model/GeneExpressionAtlasTissuesExpressions.java).
+
+Demo at http://yochannah.github.io/gene-expression-graph/
 
 ### Using the project
 See index.html for a basic demo / init instructions.
